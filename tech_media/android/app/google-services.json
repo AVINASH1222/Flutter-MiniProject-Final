@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "303801448343",
+    "firebase_url": "https://tech-media-e7ea7.firebaseio.com",
+    "project_id": "tech-media-e7ea7",
+    "storage_bucket": "tech-media-e7ea7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:303801448343:android:1ffbc413647f06bc0eb6d2",
+        "android_client_info": {
+          "package_name": "com.example.tech_media"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "303801448343-ul5uas2hmnisjshtaffokaql7gblb37j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXhtTh2g-7dI9Z2QdwmmYL4GRM_B0OmeI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "303801448343-ul5uas2hmnisjshtaffokaql7gblb37j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
