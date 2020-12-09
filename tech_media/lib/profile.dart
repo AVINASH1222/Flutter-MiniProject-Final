@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/animation.dart';
@@ -7,6 +8,8 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:tech_media/post.dart';
 import 'package:tech_media/postdesign.dart';
 import 'package:tech_media/postvideodesign.dart';
+
+import 'edit profile.dart';
 
 // ignore: camel_case_types
 FirebaseFirestore _store = FirebaseFirestore.instance;
@@ -26,6 +29,8 @@ TextEditingController uname = TextEditingController();
 TextEditingController udp = TextEditingController();
 
 class profileState extends State<profile> {
+  String dp, name;
+  int tlikes = 0, tdislikes = 0;
   List<Post> posts = [];
   Future<List<Post>> retreiveimage() async {
     await _store
@@ -78,8 +83,22 @@ class profileState extends State<profile> {
     return posts;
   }
 
+  retrievename() async {
+    await _store
+        .collection('users')
+        .doc(_auth.currentUser.email)
+        .get()
+        .then((value) {
+      setState(() {
+        dp = value.data()['dp'];
+        name = value.data()['first name'] + " " + value.data()['last name'];
+      });
+    });
+  }
+
   @override
   void initState() {
+    retrievename();
     if (posts.length > 0) {
       posts.clear();
     }
@@ -144,11 +163,126 @@ class profileState extends State<profile> {
                 )
               : CustomScrollView(
                   slivers: [
+                    SliverToBoxAdapter(
+                      child: Container(
+                        child: Column(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(20),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      dp == null
+                                          ? ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              child: Image.asset(
+                                                "assets/images/profile.png",
+                                                width: 80,
+                                                height: 80,
+                                                fit: BoxFit.cover,
+                                              ))
+                                          : ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              child: CachedNetworkImage(
+                                                imageUrl: dp,
+                                                width: 80,
+                                                height: 80,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                      Column(
+                                        children: [
+                                          Text(
+                                            "${posts.length}",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 25),
+                                          ),
+                                          Text("Posts")
+                                        ],
+                                      ),
+                                      Column(
+                                        children: [
+                                          Text(
+                                            tlikes.toString(),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 25),
+                                          ),
+                                          Text("Total Likes")
+                                        ],
+                                      ),
+                                      Column(
+                                        children: [
+                                          Text(
+                                            tdislikes.toString(),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 25),
+                                          ),
+                                          Text("Total Dislikes")
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        name == null ? " " : name,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  RaisedButton(
+                                      color:
+                                          Colors.teal[800], //Color(0xff3257A6),
+                                      child: Text(
+                                        "Edit Profile",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          edit_profile()));
+                                        });
+                                      })
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Divider(
+                              thickness: 0.3,
+                              color: Colors.grey,
+                              height: 0.4,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                     SliverList(
                         delegate: SliverChildBuilderDelegate(
                       (context, index) {
                         final Post post = posts[index];
-                        return (post.type=="image")?postdesign(post, "profile"):postvideodesign(post, "profile");
+                        return postdesign(post, "profile");
                       },
                       childCount: posts.length,
                     )),
