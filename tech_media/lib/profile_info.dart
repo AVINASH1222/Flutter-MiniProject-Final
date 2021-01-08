@@ -47,8 +47,7 @@ class _profile_infoState extends State<profile_info> {
   StorageUploadTask _uploadTask;
   FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
   bool show = false;
-  
-  
+
   void addinfo() {
     try {
       String filepath = 'profile_picture/${auth.currentUser.email}.png';
@@ -68,21 +67,32 @@ class _profile_infoState extends State<profile_info> {
               'dp': val,
             });
             users.get().then((value) {
-              for(int i=0;i<value.docs.length;i++){
-                users.doc(value.docs[i].id).collection("posts").get().then((val) {
-                  for(int j=0;j<val.docs.length;j++){
-                    users.doc(value.docs[i].id).collection("posts").doc(val.docs[j].id).collection("likes").doc(FirebaseAuth.instance.currentUser.email).set({
-                      'action':0
-                    });
+              for (int i = 0; i < value.docs.length; i++) {
+                users
+                    .doc(value.docs[i].id)
+                    .collection("posts")
+                    .get()
+                    .then((val) {
+                  for (int j = 0; j < val.docs.length; j++) {
+                    users
+                        .doc(value.docs[i].id)
+                        .collection("posts")
+                        .doc(val.docs[j].id)
+                        .collection("likes")
+                        .doc(FirebaseAuth.instance.currentUser.email)
+                        .set({'action': 0});
                   }
                 });
               }
             });
-            FirebaseFirestore.instance.collection("posts").get().then((value){
-              for(int i=0;i<value.docs.length;i++){
-                FirebaseFirestore.instance.collection("posts").doc(value.docs[i].id).collection("likes").doc(FirebaseAuth.instance.currentUser.email).set({
-                  'action':0
-                });
+            FirebaseFirestore.instance.collection("posts").get().then((value) {
+              for (int i = 0; i < value.docs.length; i++) {
+                FirebaseFirestore.instance
+                    .collection("posts")
+                    .doc(value.docs[i].id)
+                    .collection("likes")
+                    .doc(FirebaseAuth.instance.currentUser.email)
+                    .set({'action': 0});
               }
             });
           });
@@ -129,19 +139,24 @@ class _profile_infoState extends State<profile_info> {
         fontSize: 22,
         textColor: Colors.black,
         onPressed: () {
-          if((f_name.text.isEmpty)||(l_name.text.isEmpty)||(age.text.isEmpty)||(phone_no.text.isEmpty)||(dp==null)){
-            Fluttertoast.showToast(
-                  msg: 'All Fields And Image Required');
-          }
-          else{
+          if ((f_name.text.isEmpty) ||
+              (l_name.text.isEmpty) ||
+              (age.text.isEmpty) ||
+              (phone_no.text.isEmpty) ||
+              (dp == null)) {
+            Fluttertoast.showToast(msg: 'All Fields And Image Required');
+          } else {
             setState(() {
               show = true;
             });
             addinfo();
             print('info added!');
-            Future.delayed(Duration(seconds: 10),(){
+            Future.delayed(Duration(seconds: 10), () {
               setState(() {
-                Navigator.pushReplacement(context,MaterialPageRoute(builder: (BuildContext context) => home()));
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => home()));
                 show = false;
               });
             });
@@ -153,8 +168,8 @@ class _profile_infoState extends State<profile_info> {
     return SafeArea(
       child: Scaffold(
         body: ModalProgressHUD(
-            inAsyncCall: show,
-            child: SingleChildScrollView(
+          inAsyncCall: show,
+          child: SingleChildScrollView(
             child: Container(
                 height: MediaQuery.of(context).size.height,
                 decoration: BoxDecoration(
@@ -183,7 +198,8 @@ class _profile_infoState extends State<profile_info> {
                         ),
                         // add image button
                         Positioned(
-                          bottom: (MediaQuery.of(context).size.width * 0.3) * 0.2,
+                          bottom:
+                              (MediaQuery.of(context).size.width * 0.3) * 0.2,
                           right: 0,
                           child: Align(
                             alignment: Alignment.center,
@@ -222,7 +238,8 @@ class _profile_infoState extends State<profile_info> {
                         child: Column(
                           children: [
                             SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.025,
+                              height:
+                                  MediaQuery.of(context).size.height * 0.025,
                             ),
                             Padding(
                               padding: const EdgeInsets.symmetric(

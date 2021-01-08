@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:video_compress/video_compress.dart';
 import 'package:video_player/video_player.dart';
 import 'feed.dart';
 import 'home.dart';
@@ -27,6 +28,7 @@ class _createPostState extends State<createPost> {
   FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
   File image;
   File video;
+  MediaInfo compressedPost;
   int checkVideoOrImage=0;
   VideoPlayerController controller;
 
@@ -288,6 +290,17 @@ class _createPostState extends State<createPost> {
         controller.setLooping(true);
       });
     }
+    await VideoCompress.compressVideo(
+          video.path,
+          quality: VideoQuality.DefaultQuality,
+        ).then((value) {
+          setState(() {
+            print("VAL : "+value.path);
+            print(video);
+            compressedPost = value;
+          });
+          } 
+        );
   }
   void _uploadvideo(){
     try{
@@ -306,7 +319,7 @@ class _createPostState extends State<createPost> {
         _uploadTask = await _firebaseStorage
             .ref()
             .child(filepath)
-            .putFile(video,StorageMetadata(contentType:'video/mp4'))
+            .putFile(compressedPost.file, StorageMetadata(contentType:'video/mp4'))
             .onComplete
             // ignore: missing_return
             .then((value) {
@@ -356,7 +369,6 @@ class _createPostState extends State<createPost> {
                   "action": 0,
                 });
               }
-              ;
             });
           });
         });

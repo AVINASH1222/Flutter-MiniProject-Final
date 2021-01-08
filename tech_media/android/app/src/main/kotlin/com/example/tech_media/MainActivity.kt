@@ -1,4 +1,4 @@
-package com.example.tech_media
+package com.example.technologymedia
 
 import io.flutter.embedding.android.FlutterActivity
 

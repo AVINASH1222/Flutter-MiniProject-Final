@@ -34,6 +34,9 @@ dependencies:
   video_player: ^1.0.1
   video_thumbnail: ^0.2.5
   video_thumbnail_generator: ^0.0.6
+  video_compress: ^2.1.1
+  flutter_image_compress: ^0.7.0
+  flutter_luban: ^0.1.11
   
 dev_dependencies:
   flutter_test:

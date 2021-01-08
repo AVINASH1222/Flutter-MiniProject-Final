@@ -36,7 +36,12 @@ class _fullPostState extends State<fullPost> {
   void initState(){
     super.initState();
     setState(() {
-      if(post.type=="video")controller = VideoPlayerController.network(post.imageUrl);
+      if(post.type=="video")
+      {
+        controller = VideoPlayerController.network(post.imageUrl);
+        controller.initialize();
+        controller.setLooping(true);
+      }
     });
   }
   @override
@@ -458,7 +463,7 @@ class _propertiesState extends State<properties> {
                     Padding(
                       padding: const EdgeInsets.only(left: 10.0),
                       child: IconButton(
-                        color: (likes == 1) ? Colors.blue : Colors.black,
+                        color: (post.action == 1) ? Colors.teal : Colors.black,
                         // color: (post.liked)?Colors.blue:Colors.black,
                         icon: Icon(Icons.thumb_up),
                         onPressed: () {
@@ -476,7 +481,7 @@ class _propertiesState extends State<properties> {
                     Padding(
                       padding: const EdgeInsets.only(left: 10.0),
                       child: IconButton(
-                        color: (dislikes == -1) ? Colors.blue : Colors.black,
+                        color: (post.action == -1) ? Colors.red : Colors.black,
                         //  color: (post.disliked)?Colors.blue:Colors.black,
                         icon: Icon(Icons.thumb_down),
                         onPressed: () {

@@ -128,6 +128,8 @@ class profileState extends State<profile> {
             borderRadius: BorderRadius.circular(isDrawerOpen ? 40 : 0.0)),
         child: Scaffold(
           appBar: AppBar(
+            centerTitle: true,
+            title: Text('Profile'),
             backgroundColor: Colors.teal[800],
             leading: isDrawerOpen
                 ? IconButton(
@@ -282,7 +284,9 @@ class profileState extends State<profile> {
                         delegate: SliverChildBuilderDelegate(
                       (context, index) {
                         final Post post = posts[index];
-                        return postdesign(post, "profile");
+                        return (post.type == "video")
+                            ? postvideodesign(post, "profile")
+                            : postdesign(post, "profile");
                       },
                       childCount: posts.length,
                     )),

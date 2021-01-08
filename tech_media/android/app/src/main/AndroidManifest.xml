@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.tech_media">
+    package="com.example.technologymedia">
    <application
-        android:label="tech_media"
+        android:label="technologymedia"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
