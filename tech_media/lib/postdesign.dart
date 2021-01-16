@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_beautiful_popup/main.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:tech_media/comments.dart';
+import 'package:tech_media/edit%20profile.dart';
 import 'package:tech_media/fullpost.dart';
 import 'package:tech_media/home.dart';
 import 'package:tech_media/main.dart';
 import 'package:tech_media/profile.dart';
+import 'package:tech_media/viewprofile.dart';
 import 'post.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'widgets/animation.dart';
@@ -132,8 +134,25 @@ class _postdesignState extends State<postdesign> {
                       SizedBox(
                         width: 5.0,
                       ),
-                      Text(
-                        post.uname,
+                      GestureDetector(
+                        onTap: () {
+                          if (post.email == auth.currentUser.email) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        profile()));
+                          } else {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        viewprofile(post)));
+                          }
+                        },
+                        child: Text(
+                          post.uname,
+                        ),
                       ),
                     ],
                   ),

@@ -9,7 +9,9 @@ import 'package:tech_media/fullpost.dart';
 import 'package:tech_media/home.dart';
 import 'package:tech_media/main.dart';
 import 'package:tech_media/profile.dart';
+import 'package:tech_media/viewprofile.dart';
 import 'package:video_player/video_player.dart';
+import 'edit profile.dart';
 import 'post.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'widgets/animation.dart';
@@ -124,7 +126,7 @@ class _postvideodesignState extends State<postvideodesign> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         child: Container(
-                           width: 40.0,
+                          width: 40.0,
                           height: 40.0,
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
@@ -137,8 +139,25 @@ class _postvideodesignState extends State<postvideodesign> {
                       SizedBox(
                         width: 5.0,
                       ),
-                      Text(
-                        post.uname,
+                      GestureDetector(
+                        onTap: () {
+                          if (post.email == auth.currentUser.email) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        profile()));
+                          } else {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        viewprofile(post)));
+                          }
+                        },
+                        child: Text(
+                          post.uname,
+                        ),
                       ),
                     ],
                   ),
@@ -169,23 +188,21 @@ class _postvideodesignState extends State<postvideodesign> {
                       padding: EdgeInsets.symmetric(vertical: 5.0),
                       child: Container(
                         height: MediaQuery.of(context).size.height / 2,
-                          width: MediaQuery.of(context).size.width * 0.8,
-                          child: AspectRatio(
-                              aspectRatio: 1/1,
-                              child: GestureDetector(
-                                onTap: (){
-                                  if(controller.value.isPlaying){
-                                    controller.pause();
-                                  }
-                                  else{
-                                    controller.play();
-                                  }
-                                },
-                                child: VideoPlayer(controller),
-                              ),
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        child: AspectRatio(
+                          aspectRatio: 1 / 1,
+                          child: GestureDetector(
+                            onTap: () {
+                              if (controller.value.isPlaying) {
+                                controller.pause();
+                              } else {
+                                controller.play();
+                              }
+                            },
+                            child: VideoPlayer(controller),
                           ),
-                      ) 
-                    )
+                        ),
+                      ))
                   : SizedBox.shrink(),
               Padding(
                 padding: const EdgeInsets.symmetric(
